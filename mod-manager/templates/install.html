@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Install, update or change a mod's version</h1>
+<form method="get" class="stack">
+  <label>Thunderstore link or Author-ModName
+    <input name="ref" value="{{ ref }}" placeholder="https://thunderstore.io/c/valheim/p/Vapok/AdventureBackpacks/" required></label>
+  <button>Look it up</button>
+</form>
+<p class="muted">Find mods at <a href="https://thunderstore.io/c/valheim/" target="_blank" rel="noopener">thunderstore.io/c/valheim</a>,
+then paste the mod page's link here.</p>
+
+{% if plan %}
+{% set top = plan[-1] %}
+<h2>{{ top.name }} <span class="muted">by {{ top.namespace }}</span></h2>
+<form method="get" class="picker">
+  <input type="hidden" name="ref" value="{{ ref }}">
+  <label class="stack">Version
+    {% if versions %}
+    <select name="version">
+      {% for v in versions %}
+      <option value="{{ v.version }}" {{ "selected" if v.version == top.version }}>
+        {{ v.version }} — {{ v.date }}{{ " (latest)" if loop.first }}{{ " (installed)" if v.version == top.installed_version }}</option>
+      {% endfor %}
+    </select>
+    {% else %}
+    <input name="version" value="{{ top.version }}" class="short">
+    {% endif %}
+  </label>
+  <button>Show this version</button>
+</form>
+
+<h2>This will:</h2>
+<table>
+  <tr><th>Mod</th><th>Action</th><th>Version</th><th>Notes</th></tr>
+  {% for s in plan %}
+  <tr>
+    <td><strong>{{ s.name }}</strong> <span class="muted">by {{ s.namespace }}</span></td>
+    <td>{{ s.action }}</td>
+    <td>{% if s.installed_version and s.installed_version != s.version %}{{ s.installed_version }} → {% endif %}{{ s.version }}</td>
+    <td class="small">
+      {% if s.required_by %}needed by {{ s.required_by }}{% endif %}
+      {% if s.deprecated %}<span class="badge warn">deprecated</span>{% endif %}
+      {% for c in s.categories if c in ("Server-side", "Client-side") %}<span class="badge">{{ c }}</span>{% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% if top.pinned %}
+<p class="flash">{{ top.version }} isn't the latest ({{ top.latest }}), so {{ top.name }} will be <strong>held</strong> at
+{{ top.version }}: Update all leaves it unchecked until you choose the latest version here.</p>
+{% endif %}
+{% for n in notes %}<p class="muted">{{ n }}</p>{% endfor %}
+<form method="post" class="stack">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <input type="hidden" name="ref" value="{{ ref }}">
+  <input type="hidden" name="version" value="{{ top.version }}">
+  <input type="hidden" name="confirm" value="1">
+  <button class="primary">Go ahead</button>
+</form>
+<p class="muted">Remember: players need the same versions in r2modman, or they can't join.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>First-time setup</h1>
+<p>Create the first admin account. The setup token is printed in the app's log:
+<code>podman logs valheim-modmgr</code></p>
+<form method="post" class="stack narrow">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label>Setup token <input name="token" required autocomplete="off"></label>
+  <label>Username <input name="username" required autocomplete="username"></label>
+  <label>Password (12+ characters) <input type="password" name="password" required autocomplete="new-password"></label>
+  <label>Confirm password <input type="password" name="confirm" required autocomplete="new-password"></label>
+  <button>Create account</button>
+</form>
+{% endblock %}

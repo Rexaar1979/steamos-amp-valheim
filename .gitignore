@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local data and anything personal - never commit these
+*.log
+*.zip
+*.key
+*.pem
+.env
+data/
+amp-data/
+tailscale-data/
+valheim-modmgr-data/

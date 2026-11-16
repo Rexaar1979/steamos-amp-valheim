@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Valheim Mod Manager{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="{{ url_for('index') if current_user else url_for('login') }}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h4v2.5a1.5 1.5 0 0 0 3 0V3h3a2 2 0 0 1 2 2v3h-2.5a1.5 1.5 0 0 0 0 3H21v8a2 2 0 0 1-2 2h-8v-2.5a1.5 1.5 0 0 0-3 0V21H5a2 2 0 0 1-2-2v-8h2.5a1.5 1.5 0 0 0 0-3H3V5a2 2 0 0 1 2-2z"/></svg>
+    <strong>Valheim Mod Manager</strong>
+  </a>
+  {% if current_user %}
+  <nav>
+    <a href="{{ url_for('index') }}">Mods</a>
+    <a href="{{ url_for('install') }}">Install</a>
+    <a href="{{ url_for('configs') }}">Configs</a>
+    <a href="{{ url_for('player_list') }}">Player list</a>
+    {% if current_user.is_admin %}<a href="{{ url_for('users_page') }}">Users</a>{% endif %}
+    <a href="{{ url_for('account') }}">Account</a>
+    <form method="post" action="{{ url_for('logout') }}" class="inline">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button class="link">Sign out ({{ current_user.username }})</button>
+    </form>
+  </nav>
+  {% endif %}
+</header>
+<main>
+  {% for msg in get_flashed_messages() %}
+  <div class="flash {% if msg.startswith('Error') %}error{% endif %}">{{ msg }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

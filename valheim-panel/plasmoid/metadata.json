@@ -1,0 +1,14 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "KPlugin": {
+        "Id": "org.valheimpanel.server",
+        "Name": "Valheim Server",
+        "Description": "Who is on the Valheim server, who is signed in to AMP or the mod manager remotely, and buttons for both",
+        "Icon": "applications-games",
+        "Category": "System Information",
+        "Version": "1.0",
+        "License": "MIT",
+        "FormFactors": ["desktop"]
+    }
+}

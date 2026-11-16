@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Update all</h1>
+{% if candidates %}
+<p>Untick anything you don't want to update yet. Each mod goes to its latest version; if that version needs newer
+dependencies (like Jotunn), they're updated too.</p>
+<form method="post" class="stack">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <table>
+    <tr><th></th><th>Mod</th><th>Installed</th><th>Latest</th></tr>
+    {% for c in candidates %}
+    <tr>
+      <td><input type="checkbox" name="mods" value="{{ c.full_name }}" id="m{{ loop.index }}" {{ "" if c.pinned else "checked" }}></td>
+      <td><label for="m{{ loop.index }}"><strong>{{ c.name }}</strong> <span class="muted">by {{ c.namespace }}</span></label>
+        {% if c.pinned %}<span class="badge warn">held</span>{% endif %}
+        {% if not c.enabled %}<span class="badge">disabled</span>{% endif %}</td>
+      <td>{{ c.version }}</td>
+      <td>{{ c.latest }}
+        <a class="small" href="https://thunderstore.io/c/valheim/p/{{ c.namespace }}/{{ c.name }}/changelog/" target="_blank" rel="noopener">changelog</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  <div><button class="primary">Update selected</button> <a href="{{ url_for('index') }}">Cancel</a></div>
+</form>
+<p class="muted">To pick a specific version instead, use "Versions…" next to the mod on the Mods page.
+Players need the same versions in r2modman.</p>
+{% else %}
+<p>Everything is up to date. <a href="{{ url_for('index') }}">Back to mods</a></p>
+{% endif %}
+{% endblock %}

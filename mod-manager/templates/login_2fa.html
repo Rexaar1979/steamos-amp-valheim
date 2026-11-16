@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Authenticator code</h1>
+<p>Enter the 6-digit code from your authenticator app.</p>
+<form method="post" class="stack narrow">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label>Code <input name="code" required autofocus inputmode="numeric" autocomplete="one-time-code" maxlength="7"></label>
+  <button>Sign in</button>
+</form>
+{% endblock %}

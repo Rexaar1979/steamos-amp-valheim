@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Player mod list</h1>
+<p>Everyone joining needs these mods at these versions in r2modman (plus BepInExPack_Valheim):</p>
+<table>
+  <tr><th>Mod</th><th>Version</th><th>Thunderstore</th></tr>
+  {% for m in mods %}
+  <tr><td>{{ m.name }} <span class="muted">by {{ m.namespace }}</span></td><td>{{ m.version }}</td>
+    <td><a href="https://thunderstore.io/c/valheim/p/{{ m.namespace }}/{{ m.name }}/" target="_blank" rel="noopener">page</a></td></tr>
+  {% else %}<tr><td colspan="3" class="muted">No managed mods enabled.</td></tr>{% endfor %}
+</table>
+<h2>Copy/paste version</h2>
+<textarea rows="{{ mods|length + 1 }}" readonly>{% for m in mods %}{{ m.full_name }}-{{ m.version }}
+{% endfor %}</textarea>
+{% endblock %}

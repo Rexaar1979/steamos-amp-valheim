@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Mod config files</h1>
+<p class="muted">BepInEx/config. Some mods (like Adventure Backpacks) push the server's settings to players.
+Restart the server after editing.</p>
+<ul>
+  {% for f in files %}<li><a href="{{ url_for('config_edit', filename=f) }}">{{ f }}</a></li>
+  {% else %}<li class="muted">No .cfg files yet — mods create them the first time the server starts with them.</li>{% endfor %}
+</ul>
+{% endblock %}

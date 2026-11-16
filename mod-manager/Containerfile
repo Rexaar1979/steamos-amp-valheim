@@ -1,0 +1,9 @@
+FROM docker.io/library/python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app.py mods.py ./
+COPY templates templates
+COPY static static
+ENV MODMGR_BEPINEX_DIR=/bepinex MODMGR_DATA_DIR=/data MODMGR_HOST=127.0.0.1 MODMGR_PORT=8095 PYTHONUNBUFFERED=1
+CMD ["python", "app.py"]

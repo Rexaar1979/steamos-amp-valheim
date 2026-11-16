@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ filename }}</h1>
+<form method="post" class="stack">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <textarea name="text" rows="30" spellcheck="false">{{ text }}</textarea>
+  <div><button class="primary">Save</button> <a href="{{ url_for('configs') }}">Back</a></div>
+</form>
+<p class="muted">The previous version is saved as {{ filename }}.bak.</p>
+{% endblock %}

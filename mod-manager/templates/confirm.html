@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ action|capitalize }} {{ full_name }}?</h1>
+{% if dependents %}
+<div class="flash error">These installed mods need {{ full_name }} and will probably fail to load without it:
+  <strong>{{ dependents|join(", ") }}</strong></div>
+{% endif %}
+{% if action == "uninstall" %}<p>Its config file in BepInEx/config is kept.</p>{% endif %}
+<form method="post" class="inline">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <input type="hidden" name="confirm" value="1">
+  {% if unmanaged_enabled is defined %}<input type="hidden" name="enabled" value="{{ 1 if unmanaged_enabled else 0 }}">{% endif %}
+  <button class="danger">Yes, {{ action }}</button>
+</form>
+<a href="{{ url_for('index') }}">Cancel</a>
+{% endblock %}
