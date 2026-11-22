@@ -50,6 +50,8 @@ Add or Manage Widgets -> search "Valheim" -> drag "Valheim Server" onto the desk
 - If two people sign in from different devices within the same 30 seconds, their names can land on
   the wrong devices.
 - The panel and its pop-ups only exist in Desktop Mode (Gaming Mode has no Plasma desktop).
+- With Public off in the Valheim settings, the server never answers the status query, so the panel
+  stays on "Starting..." while the server is really running. Turn Public on (see lessons learned).
 
 ## Remove it
 

@@ -27,15 +27,24 @@ Things that cost us time, in case they save you some.
 9. **AMP rewrites `adminlist.txt`** from its "Admin Players" setting on every start.
 10. **AMP's "Update" also updates the game**, which can break mods until they catch up.
 11. **AMP's log times are UTC**, both on the Event Log page and in its log files.
+12. **AMP keeps a daily backup of its instance list** (`~/amp-data/.ampdata/instances.json-YYYYMMDD.bak`).
+    If a game instance vanishes from AMP (for example after many quick restarts), stop the container, keep the
+    broken `instances.json`, and copy a good backup into place with `podman unshare cp` so the owner stays right.
+    Check first that AMP's own entry (ADS01) still has the same `InstanceID` as in
+    `instances/ADS01/AMPConfig.conf`; if AMP gave itself a new one, use the new ID in the restored file.
+    Don't use Datastores -> Repair for this: it re-adds the instance as an unmanaged one that won't start.
 
 ## Valheim
 
-12. **No kick button in vanilla Valheim.** Kicking is a console command (`-console` launch option,
+13. **No kick button in vanilla Valheim.** Kicking is a console command (`-console` launch option,
     F5, `kick <name>`), and you must be in the admin list.
-13. **Crossplay and client mods don't mix.** Xbox players can't run mods, and many mods must be on
+14. **Crossplay and client mods don't mix.** Xbox players can't run mods, and many mods must be on
     every client.
+15. **With Public off (`-public 0`), the server doesn't answer Steam status queries** on the query port. Joining
+    still works, but players' favorites show it as offline and the desktop panel's status check gets no answer.
+    Turn Public on (and use a strong password) if you want both to work.
 
 ## Sharing files
 
-14. **Gmail blocks zip files that contain `.js` files** (the mod manager has one). Share packages
+16. **Gmail blocks zip files that contain `.js` files** (the mod manager has one). Share packages
     as a Google Drive (or similar) link instead of an attachment.

@@ -19,6 +19,7 @@ input() {
     echo "${QUERY_PORT:-2457}"
     echo "===TAILSCALE==="
     podman exec "${TAILSCALE_CONTAINER:-tailscale}" tailscale status --json 2>/dev/null
+    echo                      # tailscale prints no final newline; without this "===STATE===" lands on its line
     echo "===STATE==="
     cat "$DIR/state.json" 2>/dev/null
     echo
